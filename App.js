@@ -5,43 +5,31 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import LogIn from './screens/LogIn'
 import List from './screens/List'
-import {useEffect, useState} from 'react';
+import Add from './screens/Add'
+import DetailsUpdate from './screens/DetailsUpdate'
+import { useEffect, useState } from 'react';
 import repo from './repo'
+import store from './store'
+import { Provider } from 'react-redux'
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
-  const [places,setPlaces] =useState(null)
-
- 
-  useEffect(() => {
-    fetch("repo.json")
-      .then(res => {
-        console.log(res);
-        return res.json();
-      })
-      .then((data)=>{
-        console.log(data);
-      })
-    // async function fetchList() {
-    //   try{
-    //     const resp = await fetch("repo.json");
-    //     console.log(resp);
-    //   }catch{
-
-    //   }
-    // }
-  }, [])
+  const [places, setPlaces] = useState(null)
 
 
-  return(
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen name="LogIn" component={LogIn} />
-        <Stack.Screen name="List" component={(props) => <List {...props} listElem={listElem}/>}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="LogIn" component={LogIn} />
+          <Stack.Screen name="List" component={List} />
+          <Stack.Screen name="DetailsUpdate" component={DetailsUpdate} />
+          <Stack.Screen name="Add" component={Add} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   )
 }
 
@@ -55,3 +43,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
